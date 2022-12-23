@@ -8,16 +8,15 @@ import os
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Usage: ./markdown2html.py README.md README.html",
-              file=sys.stderr)
-        sys.exit(1)
+        sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
+        exit(1)
 
     file = sys.argv[1]
     out = sys.argv[2]
 
     if not os.path.exists(file):
-        print(f"Missing {file}", file=sys.stderr)
-        sys.exit(1)
+        sys.stderr.write(f"Missing {file}" + "\n")
+        exit(1)
 
     with open(file) as f:
         markdown_text = f.read()
@@ -26,4 +25,4 @@ if __name__ == "__main__":
     with open(out, "w") as f:
         f.write(html_text)
 
-    sys.exit(0)
+    exit(0)
