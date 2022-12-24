@@ -23,11 +23,11 @@ def md_to_html(file, out):
             heading_text = line.strip("#").strip()
 
             converted.append(
-                f"<h{heading_level}>{heading_text}</h{heading_level}>"
+                f"<h{heading_level}>{heading_text}</h{heading_level}>\n"
                 )
 
         elif line:
-            converted.append(f"<p>{line}</p>")
+            converted.append(f"<p>{line}</p>\n")
 
     html = "\n".join(converted)
 
