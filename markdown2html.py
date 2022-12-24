@@ -37,17 +37,19 @@ def md_to_html(file, out):
 
 if __name__ == "__main__":
 
-    file = sys.argv[1]
-    out = sys.argv[2]
+
 
     if len(sys.argv) < 3:
         sys.stderr.write(
-            "Usage: ./markdown2html.py README.md README.html"
+            "Usage: ./markdown2html.py README.md README.html\n"
             )
-        sys.exit(1)
+        exit(1)
+
+    file = sys.argv[1]
+    out = sys.argv[2]
 
     if not os.path.exists(file):
         sys.stderr.write(f"Missing {file}\n")
-        sys.exit(1)
+        exit(1)
 
     md_to_html(file, out)
