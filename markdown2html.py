@@ -47,7 +47,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if not os.path.exists(file):
-        sys.stderr.write(f"Missing README.md\n")
+        sys.stderr.write(f"Missing {file}\n")
         sys.exit(1)
 
     md_to_html(file, out)
