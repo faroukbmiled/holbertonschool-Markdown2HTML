@@ -47,7 +47,6 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if not os.path.exists(file):
-        print(f"Missing {file}", file=sys.stderr)
         sys.stderr.write(f"Missing {file}")
         sys.exit(1)
 
