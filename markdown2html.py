@@ -63,9 +63,11 @@ if __name__ == "__main__":
                 ol_open = False
             list_first = line.strip("- ").rstrip("\n")
             if "**" in list_first:
-                list_first = list_first.replace("**", "<b>", 1).replace("**", "</b>")
+                list_first = \
+                    list_first.replace("**", "<b>", 1).replace("**", "</b>")
             if "__" in list_first:
-                list_first = list_first.replace("__", "<em>", 1).replace("__", "</em>")
+                list_first = \
+                    list_first.replace("__", "<em>", 1).replace("__", "</em>")
             converted.append(f"<li>{list_first}</li>")
 
         elif line.startswith("* "):
@@ -80,9 +82,11 @@ if __name__ == "__main__":
                 ul_open = False
             list_first = line.strip("* ").rstrip('\n')
             if "**" in list_first:
-                list_first = list_first.replace("**", "<b>", 1).replace("**", "</b>")
+                list_first = \
+                    list_first.replace("**", "<b>", 1).replace("**", "</b>")
             if "__" in list_first:
-                list_first = list_first.replace("__", "<em>", 1).replace("__", "</em>")
+                list_first = \
+                    list_first.replace("__", "<em>", 1).replace("__", "</em>")
             converted.append(f"<li>{list_first}</li>")
 
         elif line:
