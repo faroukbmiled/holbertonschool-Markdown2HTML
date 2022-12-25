@@ -23,7 +23,7 @@ if __name__ == "__main__":
     lines = markdown_string.split("\n")
 
     converted = []
-    lines_count = 0
+    ul_open = False
 
     for line in lines:
 
@@ -33,30 +33,30 @@ if __name__ == "__main__":
             heading_level = line.count("#")
             heading_text = line.strip("#").strip()
 
-            if lines_count > 0:
+            if ul_open:
                 converted.append("</ul>")
-                lines_count = 0
+                ul_open = False
 
             converted.append(
                 f"<h{heading_level}>{heading_text}</h{heading_level}>"
                 )
 
         elif line.startswith("-"):
-            if lines_count == 0:
+            if not ul_open:
                 converted.append("<ul>")
+                ul_open = True
             list_first = line.strip("- ")
             list_strip = list_first.rstrip('\n')
             converted.append(f"<li>{list_strip}</li>")
-            lines_count += 1
 
         elif line:
-            if lines_count > 0:
+            if ul_open:
                 converted.append("</ul>")
-                lines_count = 0
+                ul_open = False
 
             converted.append(f"<p>{line}</p>")
 
-    if lines_count > 0:
+    if ul_open:
         converted.append("</ul>")
 
     html = "\n".join(converted)
