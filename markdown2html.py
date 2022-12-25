@@ -143,7 +143,6 @@ if __name__ == "__main__":
                 p_open = False
             p_counter = 0
 
-
     html = "\n".join(converted)
     with open(out, "w") as f:
         f.write(html)
