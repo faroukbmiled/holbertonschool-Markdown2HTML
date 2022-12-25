@@ -14,7 +14,7 @@ if __name__ == "__main__":
     out = sys.argv[2]
 
     if not os.path.exists(file):
-        sys.stderr.write(f"Missing {file}\n")
+        sys.stderr.write("Missing " + file + "\n")
         exit(1)
 
     with open(file, "r", encoding="utf-8") as f:
@@ -32,11 +32,11 @@ if __name__ == "__main__":
             heading_text = line.strip("#").strip()
 
             converted.append(
-                f"<h{heading_level}>{heading_text}</h{heading_level}>\n"
+                f"<h{heading_level}>{heading_text}</h{heading_level}>"
                 )
 
         elif line:
-            converted.append(f"<p>{line}</p>\n")
+            converted.append(f"<p>{line}</p>")
 
     html = "\n".join(converted)
 
