@@ -41,14 +41,11 @@ if __name__ == "__main__":
     ul_open = False
     ol_open = False
     p_open = False
-    p_open_last = False
     p_counter = 0
 
     for line in lines:
         line = line.strip()
-        if p_open:
-            p_open = False
-            p_open_last = True
+
         match = md5_re.search(line)
         if match:
             content = match.group(1)
@@ -89,10 +86,12 @@ if __name__ == "__main__":
                 converted.append("</ol>")
                 ol_open = False
             list_first = line.strip("- ").rstrip("\n")
-            list_first = \
-                list_first = re.sub(bold_re, r"<b>\1</b>", list_first)
-            list_first = \
-                list_first = re.sub(italic_re, r"<em>\1</em>", list_first)
+            if "**" in list_first:
+                list_first = \
+                    list_first = re.sub(bold_re, r"<b>\1</b>", list_first)
+            if "__" in list_first:
+                list_first = \
+                    list_first = re.sub(italic_re, r"<em>\1</em>", list_first)
             converted.append(f"<li>{list_first}</li>")
 
         elif line.startswith("* "):
@@ -106,10 +105,12 @@ if __name__ == "__main__":
                 converted.append("</ul>")
                 ul_open = False
             list_first = line.strip("* ").rstrip('\n')
-            list_first = \
-                list_first = re.sub(bold_re, r"<b>\1</b>", list_first)
-            list_first = \
-                list_first = re.sub(italic_re, r"<em>\1</em>", list_first)
+            if "**" in list_first:
+                list_first = \
+                    list_first = re.sub(bold_re, r"<b>\1</b>", list_first)
+            if "__" in list_first:
+                list_first = \
+                    list_first = re.sub(italic_re, r"<em>\1</em>", list_first)
             converted.append(f"<li>{list_first}</li>")
 
         elif line:
@@ -123,18 +124,14 @@ if __name__ == "__main__":
                 converted.append("<p>")
                 p_counter += 1
                 p_open = True
-
             if p_counter > 1:
                 converted.append("<br/>")
             p_counter += 1
             line = re.sub(bold_re, r"<b>\1</b>", line)
             line = re.sub(italic_re, r"<em>\1</em>", line)
             converted.append(line)
-            if p_open_last:
-                p_open_last = False
-        if p_open:
-            converted.append("</p>")
-        else:
+
+        elif not line:
             if ul_open:
                 converted.append("</ul>")
                 ul_open = False
@@ -146,7 +143,9 @@ if __name__ == "__main__":
                 p_open = False
             p_counter = 0
 
+
+    html = "\n".join(converted)
     with open(out, "w") as f:
-        f.write("\n".join(converted))
+        f.write(html)
 
     exit(0)
