@@ -23,6 +23,7 @@ if __name__ == "__main__":
     lines = markdown_string.split("\n")
 
     converted = []
+    u_list = []
 
     for line in lines:
 
@@ -36,8 +37,17 @@ if __name__ == "__main__":
                 f"<h{heading_level}>{heading_text}</h{heading_level}>"
                 )
 
+        elif line.startswith("-"):
+            stripped = line.strip("-").strip()
+            u_list.append(f"<li>{stripped}</li>")
+
         elif line:
             converted.append(f"<p>{line}</p>")
+
+    if u_list:
+        ul_append = "\n".join(u_list)
+        ul_append = f"<ul>\n{ul_append}\n</ul>"
+        converted.append(ul_append)
 
     html = "\n".join(converted)
 
