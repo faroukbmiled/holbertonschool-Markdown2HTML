@@ -24,6 +24,7 @@ if __name__ == "__main__":
 
     converted = []
     ul_open = False
+    ol_open = False
 
     for line in lines:
 
@@ -36,10 +37,13 @@ if __name__ == "__main__":
             if ul_open:
                 converted.append("</ul>")
                 ul_open = False
+            if ol_open:
+                converted.append("</ol>")
+                ol_open = False
 
             converted.append(
                 f"<h{heading_level}>{heading_text}</h{heading_level}>"
-                )
+            )
 
         elif line.startswith("-"):
             if not ul_open:
@@ -49,15 +53,28 @@ if __name__ == "__main__":
             list_strip = list_first.rstrip('\n')
             converted.append(f"<li>{list_strip}</li>")
 
+        elif line.startswith("*"):
+            if not ol_open:
+                converted.append("<ol>")
+                ol_open = True
+            list_first = line.strip("* ")
+            list_strip = list_first.rstrip('\n')
+            converted.append(f"<li>{list_strip}</li>")
+
         elif line:
             if ul_open:
                 converted.append("</ul>")
                 ul_open = False
+            if ol_open:
+                converted.append("</ol>")
+                ol_open = False
 
             converted.append(f"<p>{line}</p>")
 
     if ul_open:
         converted.append("</ul>")
+    if ol_open:
+        converted.append("</ol>")
 
     html = "\n".join(converted)
 
