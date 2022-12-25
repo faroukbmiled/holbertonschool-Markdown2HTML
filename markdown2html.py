@@ -33,10 +33,13 @@ if __name__ == "__main__":
             heading_level = line.count("#")
             heading_text = line.strip("#").strip()
 
+            if lines_count > 0:
+                converted.append("</ul>")
+                lines_count = 0
+
             converted.append(
                 f"<h{heading_level}>{heading_text}</h{heading_level}>"
                 )
-            lines_count = 0
 
         elif line.startswith("-"):
             if lines_count == 0:
@@ -47,8 +50,11 @@ if __name__ == "__main__":
             lines_count += 1
 
         elif line:
+            if lines_count > 0:
+                converted.append("</ul>")
+                lines_count = 0
+
             converted.append(f"<p>{line}</p>")
-            lines_count = 0
 
     if lines_count > 0:
         converted.append("</ul>")
