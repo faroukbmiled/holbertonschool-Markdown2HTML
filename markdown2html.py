@@ -143,6 +143,13 @@ if __name__ == "__main__":
                 p_open = False
             p_counter = 0
 
+    if p_open:
+        converted.append("</p>")
+    if ul_open:
+        converted.append("</ul>")
+    if ol_open:
+        converted.append("</ol>")
+
     html = "\n".join(converted)
     with open(out, "w") as f:
         f.write(html)
