@@ -64,10 +64,10 @@ if __name__ == "__main__":
             list_first = line.strip("- ").rstrip("\n")
             if "**" in list_first:
                 list_first = \
-                    list_first.replace("**", "<b>", 1).replace("**", "</b>")
+                    list_first.replace("**", "<b>", 1).replace("**", "</b>", 1)
             if "__" in list_first:
                 list_first = \
-                    list_first.replace("__", "<em>", 1).replace("__", "</em>")
+                    list_first.replace("__", "<em>", 1).replace("__", "</em>", 1)
             converted.append(f"<li>{list_first}</li>")
 
         elif line.startswith("* "):
@@ -83,10 +83,10 @@ if __name__ == "__main__":
             list_first = line.strip("* ").rstrip('\n')
             if "**" in list_first:
                 list_first = \
-                    list_first.replace("**", "<b>", 1).replace("**", "</b>")
+                    list_first.replace("**", "<b>", 1).replace("**", "</b>", 1)
             if "__" in list_first:
                 list_first = \
-                    list_first.replace("__", "<em>", 1).replace("__", "</em>")
+                    list_first.replace("__", "<em>", 1).replace("__", "</em>", 1)
             converted.append(f"<li>{list_first}</li>")
 
         elif line:
@@ -105,9 +105,9 @@ if __name__ == "__main__":
                 converted.append("<br/>")
             p_counter += 1
 
-            line = line.replace("**", "<b>", 1).replace("**", "</b>")
+            line = line.replace("**", "<b>", 1).replace("**", "</b>", 1)
 
-            line = line.replace("__", "<em>", 1).replace("__", "</em>")
+            line = line.replace("__", "<em>", 1).replace("__", "</em>", 1)
 
             converted.append(f"{line}")
 
