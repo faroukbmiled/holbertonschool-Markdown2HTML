@@ -14,7 +14,7 @@ if __name__ == "__main__":
     out = sys.argv[2]
 
     if not os.path.exists(file):
-        sys.stderr.write("Missing " + file + "\n")
+        sys.stderr.write(f"Missing {file}\n")
         exit(1)
 
     with open(file, "r") as f:
