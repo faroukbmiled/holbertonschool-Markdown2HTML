@@ -7,14 +7,14 @@ import os
 if __name__ == "__main__":
 
     if len(sys.argv) < 3:
-        sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
+        print("Usage: ./markdown2html.py README.md README.html\n", file=sys.stderr)
         exit(1)
 
     file = sys.argv[1]
     out = sys.argv[2]
 
     if not os.path.exists(file):
-        sys.stderr.write(f"Missing {file}\n")
+        print(f"Missing {file}\n", file=sys.stderr)
         exit(1)
 
     with open(file, "r") as f:
@@ -25,6 +25,8 @@ if __name__ == "__main__":
     converted = []
     ul_open = False
     ol_open = False
+    p_open = False
+    p_counter = 0
 
     for line in lines:
 
@@ -40,6 +42,9 @@ if __name__ == "__main__":
             if ol_open:
                 converted.append("</ol>")
                 ol_open = False
+            if p_open:
+                converted.append("</p>")
+                p_open = False
 
             converted.append(
                 f"<h{heading_level}>{heading_text}</h{heading_level}>"
@@ -49,6 +54,12 @@ if __name__ == "__main__":
             if not ul_open:
                 converted.append("<ul>")
                 ul_open = True
+            if p_open:
+                converted.append("</p>")
+                p_open = False
+            if ol_open:
+                converted.append("</ol>")
+                ol_open = False
             list_first = line.strip("- ")
             list_strip = list_first.rstrip('\n')
             converted.append(f"<li>{list_strip}</li>")
@@ -57,6 +68,12 @@ if __name__ == "__main__":
             if not ol_open:
                 converted.append("<ol>")
                 ol_open = True
+            if p_open:
+                converted.append("</p>")
+                p_open = False
+            if ul_open:
+                converted.append("</ul>")
+                ul_open = False
             list_first = line.strip("* ")
             list_strip = list_first.rstrip('\n')
             converted.append(f"<li>{list_strip}</li>")
@@ -68,13 +85,35 @@ if __name__ == "__main__":
             if ol_open:
                 converted.append("</ol>")
                 ol_open = False
+            if not p_open:
+                converted.append("<p>")
+                p_counter += 1
+                p_open = True
 
-            converted.append(f"<p>{line}</p>")
+            if p_counter > 1:
+                converted.append("<br/>")
+            p_counter += 1
+
+            converted.append(f"{line}")
+
+        elif not line:
+            if ul_open:
+                converted.append("</ul>")
+                ul_open = False
+            if ol_open:
+                converted.append("</ol>")
+                ol_open = False
+            if p_open:
+                converted.append("</p>")
+                p_open = False
+            p_counter = 0
 
     if ul_open:
         converted.append("</ul>")
     if ol_open:
         converted.append("</ol>")
+    if p_open:
+        converted.append("</p>")
 
     html = "\n".join(converted)
 
