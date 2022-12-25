@@ -27,8 +27,6 @@ if __name__ == "__main__":
 
     for line in lines:
 
-        u_list = []
-
         line = line.strip()
 
         if line.startswith("#"):
