@@ -17,7 +17,7 @@ if __name__ == "__main__":
         sys.stderr.write("Missing " + file + "\n")
         exit(1)
 
-    with open(file, "r", encoding="utf-8") as f:
+    with open(file, "r") as f:
         markdown_string = f.read()
 
     lines = markdown_string.split("\n")
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     html = "\n".join(converted)
 
-    with open(out, "w", encoding="utf-8") as f:
+    with open(out, "w") as f:
         f.write(html)
 
     exit(0)
