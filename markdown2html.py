@@ -13,6 +13,8 @@ if __name__ == "__main__":
 
     file = sys.argv[1]
     out = sys.argv[2]
+    bold_re = r"\*\*(.+?)\*\*"
+    italic_re = r"__(.+?)__"
 
     if not os.path.exists(file):
         sys.stderr.write(f"Missing {file}\n")
@@ -62,12 +64,10 @@ if __name__ == "__main__":
                 converted.append("</ol>")
                 ol_open = False
             list_first = line.strip("- ").rstrip("\n")
-            if "**" in list_first:
-                list_first = \
-                    list_first.replace("**", "<b>", 1).replace("**", "</b>", 1)
-            if "__" in list_first:
-                list_first = \
-                    list_first.replace("__", "<em>", 1).replace("__", "</em>", 1)
+            list_first = \
+                list_first = re.sub(bold_re, r"<b>\1</b>", list_first)
+            list_first = \
+                list_first = re.sub(italic_re, r"<em>\1</em>", list_first)
             converted.append(f"<li>{list_first}</li>")
 
         elif line.startswith("* "):
@@ -81,12 +81,10 @@ if __name__ == "__main__":
                 converted.append("</ul>")
                 ul_open = False
             list_first = line.strip("* ").rstrip('\n')
-            if "**" in list_first:
-                list_first = \
-                    list_first.replace("**", "<b>", 1).replace("**", "</b>", 1)
-            if "__" in list_first:
-                list_first = \
-                    list_first.replace("__", "<em>", 1).replace("__", "</em>", 1)
+            list_first = \
+                list_first = re.sub(bold_re, r"<b>\1</b>", list_first)
+            list_first = \
+                list_first = re.sub(italic_re, r"<em>\1</em>", list_first)
             converted.append(f"<li>{list_first}</li>")
 
         elif line:
@@ -105,9 +103,9 @@ if __name__ == "__main__":
                 converted.append("<br/>")
             p_counter += 1
 
-            line = line.replace("**", "<b>", 1).replace("**", "</b>", 1)
+            line = re.sub(bold_re, r"<b>\1</b>", line)
 
-            line = line.replace("__", "<em>", 1).replace("__", "</em>", 1)
+            line = re.sub(italic_re, r"<em>\1</em>", line)
 
             converted.append(f"{line}")
 
