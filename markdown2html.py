@@ -25,6 +25,7 @@ if __name__ == "__main__":
     converted = []
 
     for line in lines:
+
         line = line.strip()
 
         if line.startswith("#"):
