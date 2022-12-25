@@ -37,8 +37,8 @@ if __name__ == "__main__":
                 f"<h{heading_level}>{heading_text}</h{heading_level}>"
                 )
 
-        elif line.startswith("-"):
-            stripped = line.strip("-").strip()
+        elif line.startswith("- "):
+            stripped = line.strip("- ").strip()
             u_list.append(f"<li>{stripped}</li>")
 
         elif line:
