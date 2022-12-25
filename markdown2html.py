@@ -51,9 +51,10 @@ if __name__ == "__main__":
     if if_ul:
         ul_append = "\n".join(u_list)
         ul_append = f"<ul>\n{ul_append}\n</ul>"
-        converted.append(ul_append)
+        converted.extend([ul_append])
 
     html = "\n".join(converted)
+
 
     with open(out, "w") as f:
         f.write(html)
