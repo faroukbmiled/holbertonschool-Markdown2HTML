@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-"""markdown2html.py ,markdown converter"""
+"""markdown2html.py, markdown converter"""
 
 import sys
 import os
+import re
 
 if __name__ == "__main__":
 
@@ -60,11 +61,14 @@ if __name__ == "__main__":
             if ol_open:
                 converted.append("</ol>")
                 ol_open = False
-            list_first = line.strip("- ")
-            list_strip = list_first.rstrip('\n')
-            converted.append(f"<li>{list_strip}</li>")
+            list_first = line.strip("- ").rstrip("\n")
+            if "**" in list_first:
+                list_first = list_first.replace("**", "<b>", 1).replace("**", "</b>")
+            if "__" in list_first:
+                list_first = list_first.replace("__", "<em>", 1).replace("__", "</em>")
+            converted.append(f"<li>{list_first}</li>")
 
-        elif line.startswith("*"):
+        elif line.startswith("* "):
             if not ol_open:
                 converted.append("<ol>")
                 ol_open = True
@@ -74,9 +78,12 @@ if __name__ == "__main__":
             if ul_open:
                 converted.append("</ul>")
                 ul_open = False
-            list_first = line.strip("* ")
-            list_strip = list_first.rstrip('\n')
-            converted.append(f"<li>{list_strip}</li>")
+            list_first = line.strip("* ").rstrip('\n')
+            if "**" in list_first:
+                list_first = list_first.replace("**", "<b>", 1).replace("**", "</b>")
+            if "__" in list_first:
+                list_first = list_first.replace("__", "<em>", 1).replace("__", "</em>")
+            converted.append(f"<li>{list_first}</li>")
 
         elif line:
             if ul_open:
@@ -93,6 +100,10 @@ if __name__ == "__main__":
             if p_counter > 1:
                 converted.append("<br/>")
             p_counter += 1
+
+            line = line.replace("**", "<b>", 1).replace("**", "</b>")
+
+            line = line.replace("__", "<em>", 1).replace("__", "</em>")
 
             converted.append(f"{line}")
 
