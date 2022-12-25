@@ -1,53 +1,44 @@
 #!/usr/bin/python3
 """markdown2html.py ,markdown converter"""
 
-
 import sys
 import os
 
+if len(sys.argv) < 3:
+    sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
+    exit(1)
 
-def md_to_html(file, out):
+file = sys.argv[1]
+out = sys.argv[2]
 
-    with open(file, "r", encoding="utf-8") as f:
-        markdown_string = f.read()
+if not os.path.exists(file):
+    sys.stderr.write(f"Missing {file}\n")
+    exit(1)
 
-    lines = markdown_string.split("\n")
+with open(file, "r", encoding="utf-8") as f:
+    markdown_string = f.read()
 
-    converted = []
+lines = markdown_string.split("\n")
 
-    for line in lines:
-        line = line.strip()
+converted = []
 
-        if line.startswith("#"):
-            heading_level = line.count("#")
-            heading_text = line.strip("#").strip()
+for line in lines:
+    line = line.strip()
 
-            converted.append(
-                f"<h{heading_level}>{heading_text}</h{heading_level}>\n"
-                )
+    if line.startswith("#"):
+        heading_level = line.count("#")
+        heading_text = line.strip("#").strip()
 
-        elif line:
-            converted.append(f"<p>{line}</p>\n")
-
-    html = "\n".join(converted)
-
-    with open(out, "w", encoding="utf-8") as f:
-        f.write(html)
-
-
-if __name__ == "__main__":
-
-    if len(sys.argv) < 3:
-        sys.stderr.write(
-            "Usage: ./markdown2html.py README.md README.html\n"
+        converted.append(
+            f"<h{heading_level}>{heading_text}</h{heading_level}>\n"
             )
-        exit(1)
 
-    file = sys.argv[1]
-    out = sys.argv[2]
+    elif line:
+        converted.append(f"<p>{line}</p>\n")
 
-    if not os.path.exists(file):
-        sys.stderr.write(f"Missing {file}\n")
-        exit(1)
+html = "\n".join(converted)
 
-    md_to_html(file, out)
+with open(out, "w", encoding="utf-8") as f:
+    f.write(html)
+
+exit(0)
