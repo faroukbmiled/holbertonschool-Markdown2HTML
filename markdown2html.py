@@ -30,6 +30,7 @@ if __name__ == "__main__":
     ol_open = False
     p_open = False
     p_counter = 0
+    list = 0
 
     for line in lines:
 
@@ -54,6 +55,7 @@ if __name__ == "__main__":
             )
 
         elif line.startswith("-"):
+            list += 1
             if not ul_open:
                 converted.append("<ul>")
                 ul_open = True
@@ -71,6 +73,7 @@ if __name__ == "__main__":
             converted.append(f"<li>{list_first}</li>")
 
         elif line.startswith("* "):
+            list += 1
             if not ol_open:
                 converted.append("<ol>")
                 ol_open = True
@@ -98,6 +101,7 @@ if __name__ == "__main__":
                 converted.append("<p>")
                 p_counter += 1
                 p_open = True
+                list = 0
 
             if p_counter > 1:
                 converted.append("<br/>")
@@ -110,27 +114,27 @@ if __name__ == "__main__":
             converted.append(f"{line}")
 
         elif not line:
-            if ul_open:
-                converted.append("</ul>")
-                ul_open = False
-            if ol_open:
-                converted.append("</ol>")
-                ol_open = False
             if p_open:
-                converted.append("</p>")
                 p_open = False
-            p_counter = 0
+                p_counter = 0
+                converted.append("</p>")
+            if ul_open and list == 0:
+                ul_open = False
+                converted.append("</ul>")
+            if ol_open and list == 0:
+                ol_open = False
+                converted.append("</ol>")
+            if list > 0:
+                list -= 1
 
+    if p_open:
+        converted.append("</p>")
     if ul_open:
         converted.append("</ul>")
     if ol_open:
         converted.append("</ol>")
-    if p_open:
-        converted.append("</p>")
-
-    html = "\n".join(converted)
 
     with open(out, "w") as f:
-        f.write(html)
+        f.write("\n".join(converted))
 
     exit(0)
