@@ -82,7 +82,7 @@ if __name__ == "__main__":
                 ul_open = False
             list_first = line.strip("* ").rstrip('\n')
             list_first = \
-                list_first = re.sub(bold_re, r"<b>\1</b>", list_first)
+                list_first = re.sub(bold_re, r"<b>\1</b>", html.escape(list_first))
             list_first = \
                 list_first = re.sub(italic_re, r"<em>\1</em>", list_first)
             converted.append(f"<li>{list_first}</li>")
