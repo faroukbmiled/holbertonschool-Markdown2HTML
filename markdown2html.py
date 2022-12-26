@@ -75,7 +75,8 @@ if __name__ == "__main__":
                     heading_text = re.sub(bold_re, r"<b>\1</b>", heading_text)
             if "__" in heading_text:
                 heading_text = \
-                    heading_text = re.sub(italic_re, r"<em>\1</em>", heading_text)
+                    heading_text = \
+                    re.sub(italic_re, r"<em>\1</em>", heading_text)
             converted.append(
                 f"<h{heading_level}>{heading_text}</h{heading_level}>"
             )
