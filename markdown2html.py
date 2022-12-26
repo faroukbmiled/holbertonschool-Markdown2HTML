@@ -45,8 +45,10 @@ if __name__ == "__main__":
     for line in lines:
         line = line.strip()
 
-        md5_hash = convert_to_md5(md5_re.search(line).group(1))
-        line = md5_re.sub(md5_hash, line, count=1)
+        match = md5_re.search(line)
+        if match:
+            md5_hash = convert_to_md5(md5_re.search(line).group(1))
+            line = md5_re.sub(md5_hash, line, count=1)
 
         modified_line = remove_c(line)
         if modified_line != line:
