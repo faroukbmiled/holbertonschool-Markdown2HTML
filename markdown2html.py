@@ -12,7 +12,11 @@ def convert_to_md5(string):
 
 
 def remove_c(string):
-    return re.sub(r'(?<!["\'])(\(\()(.+?)\)\)', r'\2', string)
+    def replace_c(match):
+        return match.group().replace("c", "").replace("C", "")
+    string = re.sub(r'\(\([^()]*[Cc][^()]*\)\)', replace_c, string)
+    string = re.sub(r'(\(\()|(\)\))', '', string)
+    return string
 
 
 if __name__ == "__main__":
