@@ -12,7 +12,7 @@ def convert_to_md5(string):
 
 
 def remove_c(string):
-    return re.sub(r'[cC]', '', string)
+    return re.sub(r'(?<!["\'])(\(\()(.+?)\)\)', r'\2', string)
 
 
 if __name__ == "__main__":
@@ -25,8 +25,7 @@ if __name__ == "__main__":
     out = sys.argv[2]
     bold_re = r"\*\*(.+?)\*\*"
     italic_re = r"__(.+?)__"
-    md5_re = re.compile(r"\[\[(.+?)\]\]")
-    c_re = re.compile(r"\(\((.+?)\)\)")
+    md5_re = re.compile(r'\[\[(.+?)\]\]')
 
     if not os.path.exists(file):
         sys.stderr.write(f"Missing {file}\n")
@@ -46,16 +45,12 @@ if __name__ == "__main__":
     for line in lines:
         line = line.strip()
 
-        match = md5_re.search(line)
-        if match:
-            content = match.group(1)
-            md5_hash = convert_to_md5(content)
-            line = line.replace(match.group(0), md5_hash)
+        md5_hash = convert_to_md5(md5_re.search(line).group(1))
+        line = md5_re.sub(md5_hash, line, count=1)
 
-        elif c_re.match(line):
-            content = c_re.match(line).group(1)
-            modified_content = remove_c(content)
-            line = modified_content
+        modified_line = remove_c(line)
+        if modified_line != line:
+            line = modified_line
 
         if line.startswith("#"):
             heading_level = line.count("#")
